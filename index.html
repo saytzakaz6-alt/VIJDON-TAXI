@@ -11,7 +11,6 @@
         body { font-family: 'Outfit', sans-serif; background-color: #0f172a; }
         .vijdon-bg { background: linear-gradient(135deg, #1e293b 0%, #020617 100%); }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gold-glow { box-shadow: 0 0 30px rgba(234, 179, 8, 0.2); }
     </style>
 </head>
 <body class="text-white pb-10">
@@ -20,12 +19,11 @@
         <div class="w-20 h-20 bg-yellow-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-xl rotate-6">
             <i class="fa fa-taxi text-slate-900 text-4xl"></i>
         </div>
-        <h1 class="text-4xl font-black tracking-tighter uppercase italic text-white">VIJDON <span class="text-yellow-500 font-light text-3xl">TAXI</span></h1>
-        <p class="text-[10px] text-yellow-500 font-bold uppercase tracking-[0.6em] mt-2">Professional Xizmat</p>
+        <h1 class="text-4xl font-black tracking-tighter uppercase italic">VIJDON <span class="text-yellow-500 font-light text-3xl">TAXI</span></h1>
     </header>
 
     <main class="max-w-md mx-auto px-6 -mt-14">
-        <div class="glass rounded-[2.5rem] shadow-2xl p-8 relative z-10 border border-white/5">
+        <div class="glass rounded-[2.5rem] shadow-2xl p-8 relative z-10">
             
             <a href="https://t.me/operator_vijdon" target="_blank" class="flex items-center justify-center gap-3 bg-sky-500 text-white py-4 rounded-2xl mb-8 font-black shadow-xl active:scale-95 transition-all">
                 <i class="fab fa-telegram text-2xl"></i>
@@ -33,54 +31,42 @@
             </a>
 
             <form id="vijdonForm" class="space-y-4">
-                <div class="relative">
-                    <i class="fa fa-user absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/60"></i>
-                    <input type="text" id="userName" placeholder="Ism va Telefon" required 
-                    class="w-full pl-11 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-yellow-500 outline-none transition-all text-white">
-                </div>
+                <input type="text" id="userName" placeholder="Ism va Telefon" required class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-yellow-500">
+                <input type="text" id="userDest" placeholder="Qayerga borasiz?" required class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-yellow-500">
 
-                <div class="relative">
-                    <i class="fa fa-map-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/60"></i>
-                    <input type="text" id="userDest" placeholder="Qayerga borasiz?" required 
-                    class="w-full pl-11 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-yellow-500 outline-none transition-all text-white">
-                </div>
-
-                <button type="button" onclick="getGPS()" id="gpsBtn" class="w-full py-4 bg-slate-800 border border-yellow-500/20 rounded-2xl font-bold flex items-center justify-center gap-3 text-xs text-slate-300">
+                <button type="button" onclick="getGPS()" id="gpsBtn" class="w-full py-4 bg-slate-800 border border-yellow-500/20 rounded-2xl font-bold flex items-center justify-center gap-3 text-xs">
                     <i class="fa fa-location-arrow text-yellow-500"></i>
-                    <span id="gpsText">Aniq manzilni aniqlash (GPS)</span>
+                    <span id="gpsText">GPS lokatsiyani aniqlash</span>
                 </button>
 
-                <select id="userTarif" class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl font-bold text-yellow-500 outline-none appearance-none cursor-pointer">
-                    <option value="Ekonom - 140,000">🚕 Ekonom (140,000 so'm)</option>
-                    <option value="Komfort - 180,000" selected>✨ Komfort (180,000 so'm)</option>
-                    <option value="Biznes - 250,000">👑 Biznes (250,000 so'm)</option>
+                <select id="userTarif" class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl font-bold text-yellow-500">
+                    <option value="Ekonom">🚕 Ekonom (140,000)</option>
+                    <option value="Komfort" selected>✨ Komfort (180,000)</option>
+                    <option value="Biznes">👑 Biznes (250,000)</option>
                 </select>
 
-                <button type="submit" id="submitBtn" class="w-full bg-yellow-500 text-slate-900 font-black py-5 rounded-[2rem] text-xl gold-glow active:scale-95 transition-all uppercase tracking-wider">
+                <button type="submit" id="submitBtn" class="w-full bg-yellow-500 text-slate-900 font-black py-5 rounded-[2rem] text-xl active:scale-95 transition-all uppercase tracking-wider">
                     Buyurtma berish
                 </button>
             </form>
         </div>
     </main>
 
-    <footer class="text-center py-10 opacity-20">
-        <p class="text-[10px] font-black uppercase tracking-[0.5em]">Vijdon Taxi © 2026</p>
-    </footer>
-
     <script>
+        // TOKEN VA ID'LARNI TEKSHIRING:
         const BOT_TOKEN = "8795614569:AAFQXDCuV1DPa5QPBg5qP1rxLAKqkDqD0Jo";
         const RECIPIENTS = ["8514630685", "-1002962669521"];
         
-        let gpsData = "GPS_aniqlanmadi";
+        let gpsData = "GPS aniqlanmadi";
 
         function getGPS() {
-            const btn = document.getElementById('gpsBtn');
             if (navigator.geolocation) {
                 document.getElementById('gpsText').innerText = "Aniqlanmoqda...";
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    gpsData = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    // Xatolik tuzatildi:
+                    gpsData = "https://www.google.com/maps?q=" + pos.coords.latitude + "," + pos.coords.longitude;
                     document.getElementById('gpsText').innerText = "Manzil aniqlandi ✅";
-                    btn.classList.add('bg-green-700', 'text-white');
+                    document.getElementById('gpsBtn').classList.add('bg-green-700');
                 });
             }
         }
@@ -95,36 +81,38 @@
             const dest = document.getElementById('userDest').value;
             const tarif = document.getElementById('userTarif').value;
 
-            // Raqamni matndan ajratib olish (faqat raqamlar)
+            // Raqamni ajratish
             const cleanPhone = name.replace(/\D/g, "");
 
-            const text = `🛡️ *VIJDON TAXI | YANGI ZAKAZ*\n\n👤 *Mijoz:* \`${name}\`\n📍 *Manzil:* ${dest}\n🏷️ *Tarif:* ${tarif}`;
+            const text = `🛡️ *VIJDON TAXI | YANGI ZAKAZ*\n\n` +
+                         `👤 *Mijoz:* \`${name}\`\n` +
+                         `📍 *Manzil:* ${dest}\n` +
+                         `🏷️ *Tarif:* ${tarif}`;
 
             const keyboard = {
                 inline_keyboard: [
-                    // Ustma-ust qilish uchun har bir tugma alohida [] qavs ichida bo'ladi
-                    [{ text: "📞 Qo'ng'iroq qilish", url: `tel:+${cleanPhone}` }],
+                    [{ text: "📞 Qo'ng'iroq qilish", url: "tel:+" + cleanPhone }],
                     [{ text: "📍 Lokatsiya ochish", url: gpsData }]
                 ]
             };
 
             try {
-                for (const chatId of RECIPIENTS) {
-                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                for (let id of RECIPIENTS) {
+                    await fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            chat_id: chatId,
+                            chat_id: id,
                             text: text,
                             parse_mode: "Markdown",
                             reply_markup: keyboard
                         })
                     });
                 }
-                alert("✅ Buyurtmangiz qabul qilindi!");
+                alert("✅ Buyurtma qabul qilindi!");
                 location.reload();
             } catch (err) {
-                alert("❌ Xatolik yuz berdi!");
+                alert("❌ Aloqa xatosi!");
                 btn.disabled = false;
                 btn.innerText = "Buyurtma berish";
             }
