@@ -1,1 +1,151 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vijdon Taxi | Rasmiy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap');
+        body { font-family: 'Outfit', sans-serif; background-color: #0f172a; }
+        .vijdon-bg { background: linear-gradient(135deg, #1e293b 0%, #020617 100%); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gold-glow { box-shadow: 0 0 25px rgba(234, 179, 8, 0.2); }
+    </style>
+</head>
+<body class="text-white pb-10">
 
+    <header class="vijdon-bg pt-12 pb-16 px-6 text-center rounded-b-[4rem] border-b-2 border-yellow-500/40 shadow-2xl">
+        <div class="w-20 h-20 bg-yellow-500 rounded-[1.5rem] mx-auto mb-5 flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)] rotate-6">
+            <i class="fa fa-taxi text-slate-900 text-4xl"></i>
+        </div>
+        <h1 class="text-5xl font-black tracking-tighter uppercase italic">VIJDON <span class="text-yellow-500 font-light text-3xl">TAXI</span></h1>
+        <p class="text-[10px] text-yellow-500 font-bold uppercase tracking-[0.6em] mt-3 opacity-90">Sifat va Mas'uliyat</p>
+    </header>
+
+    <main class="max-w-md mx-auto px-6 -mt-10">
+        <a href="tel:+998993390107" class="flex items-center justify-between bg-yellow-500 text-slate-900 p-5 rounded-[2rem] shadow-2xl mb-6 hover:scale-[1.02] transition-transform active:scale-95 group">
+            <div class="flex items-center gap-4 ml-2">
+                <div class="bg-slate-900 p-3 rounded-2xl shadow-lg group-hover:rotate-12 transition-transform">
+                    <i class="fa fa-phone-alt text-yellow-500"></i>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-700 uppercase opacity-70">Markaziy Operator</p>
+                    <p class="font-black text-xl tracking-wider">99 339 01 07</p>
+                </div>
+            </div>
+            <i class="fa fa-arrow-right mr-4 opacity-50"></i>
+        </a>
+
+        <div class="glass rounded-[2.5rem] shadow-2xl p-7 relative z-10 border border-white/5">
+            <h3 class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Online Buyurtma</h3>
+            
+            <form id="vijdonForm" class="space-y-4">
+                <div class="relative">
+                    <i class="fa fa-user absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/60 text-sm"></i>
+                    <input type="text" id="userName" placeholder="Ism va Telefon" required 
+                    class="w-full pl-11 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-yellow-500 outline-none text-sm transition-all">
+                </div>
+
+                <div class="relative">
+                    <i class="fa fa-map-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/60 text-sm"></i>
+                    <input type="text" id="userDest" placeholder="Qayerga borasiz?" required 
+                    class="w-full pl-11 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:border-yellow-500 outline-none text-sm transition-all">
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <button type="button" onclick="getGPSLocation()" id="gpsBtn" class="w-full py-4 bg-slate-800/80 border border-yellow-500/20 rounded-2xl font-bold flex items-center justify-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
+                        <i class="fa fa-location-dot text-yellow-500"></i>
+                        <span id="gpsText">Aniq manzilni aniqlash (GPS)</span>
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <i class="fa fa-shield-check absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/60 text-sm"></i>
+                    <select id="userTarif" class="w-full pl-11 pr-4 py-4 bg-slate-800 border border-white/10 rounded-2xl outline-none font-bold text-sm text-yellow-500 appearance-none">
+                        <option value="Ekonom - 140,000">🚕 Ekonom (140,000 so'm)</option>
+                        <option value="Komfort - 180,000" selected>✨ Komfort (180,000 so'm)</option>
+                        <option value="Biznes - 250,000">👑 Biznes (250,000 so'm)</option>
+                        <option value="Pochta - 60,000">📦 Pochta yuborish</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-yellow-500 text-slate-900 font-black py-5 rounded-[1.8rem] text-xl gold-glow active:scale-95 transition-all uppercase mt-2">
+                    Safar boshlash <i class="fa fa-chevron-right ml-2 text-sm opacity-50"></i>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="text-center py-14">
+        <div class="flex items-center justify-center gap-4 mb-4 opacity-20">
+            <i class="fa fa-check-double"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-shield"></i>
+        </div>
+        <p class="text-white/20 text-[10px] font-black uppercase tracking-[0.5em]">Vijdon Taxi Service © 2026</p>
+    </footer>
+
+    <script>
+        const BOT_TOKEN = "8795614569:AAFQXDCuV1DPa5QPBg5qP1rxLAKqkDqD0Jo";
+        const CHAT_ID = "8514630685";
+        let gpsUrl = "Kiritilmadi";
+
+        function getGPSLocation() {
+            const btn = document.getElementById('gpsBtn');
+            const text = document.getElementById('gpsText');
+            if (navigator.geolocation) {
+                text.innerText = "Aniqlanmoqda...";
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    gpsUrl = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    text.innerText = "Manzil aniqlandi ✅";
+                    btn.classList.replace('bg-slate-800/80', 'bg-green-700/50');
+                }, () => { 
+                    text.innerText = "GPS xatosi!";
+                    btn.classList.replace('bg-slate-800/80', 'bg-red-700/50');
+                });
+            }
+        }
+
+        document.getElementById('vijdonForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const sBtn = document.getElementById('submitBtn');
+            const oldText = sBtn.innerHTML;
+            sBtn.innerText = "YUBORILMOQDA...";
+            sBtn.disabled = true;
+
+            const name = document.getElementById('userName').value;
+            const dest = document.getElementById('userDest').value;
+            const tarif = document.getElementById('userTarif').value;
+
+            const fullText = `🛡️ *VIJDON TAXI | YANGI BUYURTMA*\n\n` +
+                             `👤 *Mijoz:* ${name}\n` +
+                             `📍 *Manzil:* ${dest}\n` +
+                             `🏷️ *Tarif:* ${tarif}\n` +
+                             `🗺️ *Lokatsiya:* ${gpsUrl}`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: fullText, parse_mode: "Markdown" })
+                });
+
+                if (response.ok) {
+                    alert("✅ Buyurtma qabul qilindi. Operator tez orada bog'lanadi!");
+                    location.reload();
+                } else {
+                    alert("⚠️ Bot bilan bog'lanib bo'lmadi!");
+                    sBtn.disabled = false;
+                    sBtn.innerHTML = oldText;
+                }
+            } catch (err) {
+                alert("❌ Internet aloqasi yo'q!");
+                sBtn.disabled = false;
+                sBtn.innerHTML = oldText;
+            }
+        };
+    </script>
+</body>
+      </html>
