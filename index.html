@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vijdon Taxi | Rasmiy</title>
+    <title>Vijdon Taxi | Buyurtma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -22,26 +22,32 @@
     </header>
 
     <main class="max-w-md mx-auto px-6 -mt-14">
-        <div class="glass rounded-[2.5rem] p-8 relative z-10">
-            <a href="https://t.me/operator_vijdon" target="_blank" class="flex items-center justify-center gap-3 bg-sky-500 py-4 rounded-2xl mb-8 font-black shadow-xl">
-                <i class="fab fa-telegram text-2xl"></i> OPERATORGA YOZISH
+        <div class="glass rounded-[2.5rem] p-8 relative z-10 border border-white/5">
+            
+            <a href="https://t.me/operator_vijdon" target="_blank" class="flex items-center justify-center gap-3 bg-sky-500 text-white py-4 rounded-2xl mb-8 font-black shadow-xl active:scale-95 transition-all">
+                <i class="fab fa-telegram text-2xl"></i>
+                OPERATORGA YOZISH
             </a>
 
             <form id="vijdonForm" class="space-y-4">
-                <input type="text" id="userName" placeholder="Ism va Telefon" required class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-yellow-500">
-                <input type="text" id="userDest" placeholder="Qayerga borasiz?" required class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-yellow-500">
-                
-                <button type="button" onclick="getGPS()" id="gpsBtn" class="w-full py-4 bg-slate-800 border border-yellow-500/20 rounded-2xl font-bold flex items-center justify-center gap-3 text-xs">
-                    <i class="fa fa-location-arrow text-yellow-500"></i> <span id="gpsText">GPS aniqlash</span>
+                <input type="text" id="userName" placeholder="Ism va Telefon raqam" required 
+                class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-yellow-500 transition-all">
+
+                <input type="text" id="userDest" placeholder="Qayerga borasiz?" required 
+                class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-yellow-500 transition-all">
+
+                <button type="button" onclick="getGPS()" id="gpsBtn" class="w-full py-4 bg-slate-800 border border-yellow-500/20 rounded-2xl font-bold flex items-center justify-center gap-3 text-xs text-slate-300">
+                    <i class="fa fa-location-arrow text-yellow-500"></i>
+                    <span id="gpsText">GPS aniqlash</span>
                 </button>
 
-                <select id="userTarif" class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl font-bold text-yellow-500">
+                <select id="userTarif" class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl font-bold text-yellow-500 outline-none">
                     <option value="Ekonom">🚕 Ekonom (140,000)</option>
                     <option value="Komfort" selected>✨ Komfort (180,000)</option>
                     <option value="Biznes">👑 Biznes (250,000)</option>
                 </select>
 
-                <button type="submit" id="submitBtn" class="w-full bg-yellow-500 text-slate-900 font-black py-5 rounded-[2rem] text-xl uppercase tracking-wider">
+                <button type="submit" id="submitBtn" class="w-full bg-yellow-500 text-slate-900 font-black py-5 rounded-[2rem] text-xl active:scale-95 transition-all uppercase tracking-wider">
                     Buyurtma berish
                 </button>
             </form>
@@ -51,17 +57,15 @@
     <script>
         const BOT_TOKEN = "8795614569:AAFQXDCuV1DPa5QPBg5qP1rxLAKqkDqD0Jo";
         const RECIPIENTS = ["8514630685", "-1002962669521"];
-        let gpsData = "GPS aniqlanmadi";
+        let gpsData = "GPS_aniqlanmadi";
 
         function getGPS() {
             if (navigator.geolocation) {
                 document.getElementById('gpsText').innerText = "Aniqlanmoqda...";
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    gpsData = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    gpsData = "http://maps.google.com/maps?q=" + pos.coords.latitude + "," + pos.coords.longitude;
                     document.getElementById('gpsText').innerText = "Manzil aniqlandi ✅";
                     document.getElementById('gpsBtn').classList.add('bg-green-700');
-                }, () => {
-                    document.getElementById('gpsText').innerText = "GPS o'chiq!";
                 });
             }
         }
@@ -78,16 +82,17 @@
             const cleanPhone = name.replace(/\D/g, "");
 
             const text = `🛡️ *VIJDON TAXI | YANGI ZAKAZ*\n\n👤 *Mijoz:* \`${name}\`\n📍 *Manzil:* ${dest}\n🏷️ *Tarif:* ${tarif}`;
+
             const keyboard = {
                 inline_keyboard: [
-                    [{ text: "📞 Qo'ng'iroq qilish", url: "tel:+" + (cleanPhone || "998") }],
+                    [{ text: "📞 Nomerni nusxalash", url: "https://t.me/share/url?url=" + encodeURIComponent(cleanPhone) }],
                     [{ text: "📍 Lokatsiya ochish", url: gpsData }]
                 ]
             };
 
             try {
                 for (let id of RECIPIENTS) {
-                    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    await fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -97,16 +102,11 @@
                             reply_markup: keyboard
                         })
                     });
-
-                    if (!response.ok) {
-                        const errorMsg = await response.json();
-                        alert(`Telegram xatosi (${id}): ` + errorMsg.description);
-                    }
                 }
                 alert("✅ Buyurtma qabul qilindi!");
                 location.reload();
             } catch (err) {
-                alert("❌ Internet yoki ulanishda xatolik!");
+                alert("❌ Xatolik yuz berdi!");
                 btn.disabled = false;
                 btn.innerText = "Buyurtma berish";
             }
