@@ -53,18 +53,17 @@
     </main>
 
     <script>
-        // TOKEN VA ID'LARNI TEKSHIRING:
+        // SIZNING MA'LUMOTLARINGIZ:
         const BOT_TOKEN = "8795614569:AAFQXDCuV1DPa5QPBg5qP1rxLAKqkDqD0Jo";
         const RECIPIENTS = ["8514630685", "-1002962669521"];
         
-        let gpsData = "GPS aniqlanmadi";
+        let gpsData = "http://maps.google.com";
 
         function getGPS() {
             if (navigator.geolocation) {
                 document.getElementById('gpsText').innerText = "Aniqlanmoqda...";
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    // Xatolik tuzatildi:
-                    gpsData = "https://www.google.com/maps?q=" + pos.coords.latitude + "," + pos.coords.longitude;
+                    gpsData = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
                     document.getElementById('gpsText').innerText = "Manzil aniqlandi ✅";
                     document.getElementById('gpsBtn').classList.add('bg-green-700');
                 });
@@ -81,13 +80,9 @@
             const dest = document.getElementById('userDest').value;
             const tarif = document.getElementById('userTarif').value;
 
-            // Raqamni ajratish
             const cleanPhone = name.replace(/\D/g, "");
 
-            const text = `🛡️ *VIJDON TAXI | YANGI ZAKAZ*\n\n` +
-                         `👤 *Mijoz:* \`${name}\`\n` +
-                         `📍 *Manzil:* ${dest}\n` +
-                         `🏷️ *Tarif:* ${tarif}`;
+            const text = `🛡️ *VIJDON TAXI | YANGI ZAKAZ*\n\n👤 *Mijoz:* \`${name}\`\n📍 *Manzil:* ${dest}\n🏷️ *Tarif:* ${tarif}`;
 
             const keyboard = {
                 inline_keyboard: [
@@ -98,7 +93,7 @@
 
             try {
                 for (let id of RECIPIENTS) {
-                    await fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -112,7 +107,7 @@
                 alert("✅ Buyurtma qabul qilindi!");
                 location.reload();
             } catch (err) {
-                alert("❌ Aloqa xatosi!");
+                alert("❌ Xatolik yuz berdi!");
                 btn.disabled = false;
                 btn.innerText = "Buyurtma berish";
             }
